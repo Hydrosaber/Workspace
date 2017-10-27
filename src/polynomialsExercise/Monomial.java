@@ -20,6 +20,10 @@ public class Monomial {
 		}
 		simplify();
 	}
+	public Monomial(Variable v) {
+		this(1);
+		variables.add(v);
+	}
 	public Monomial(ArrayList<Variable> vs) {
 		this(vs.toArray(new Variable[vs.size()]));
 	}
@@ -77,13 +81,17 @@ public class Monomial {
 		return true;
 	}
 	public String toString() {
-		if(coefficient>0) {
-			String str=""+coefficient;
+		if(coefficient!=0) {
+			String str=""+((Math.abs(coefficient)==1)?(""):(coefficient));
 			for(Variable x:variables) {
 				str+=x;
 			}
 			return str;
 		}
 		return "";
+	}
+	public Polynomial toPolynomial() {
+		Monomial[] t = {this};
+		return new Polynomial(t);
 	}
 }
