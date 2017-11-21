@@ -15,10 +15,7 @@ public class VariableMath {
 		for(int i=1;i<parts.length;i++) {
 			end=add(end, multiply(parts[i],p2));
 		}
-		ArrayList<Polynomial> factors = new ArrayList<Polynomial>();
-		factors.add(p1);
-		factors.add(p2);
-		return new Polynomial(end.getTerms(), factors);
+		return end;
 	}
 	public static Polynomial multiply(Monomial m, Polynomial p) {
 		Monomial[] parts = p.toArray();
@@ -26,10 +23,7 @@ public class VariableMath {
 		for(Monomial t:parts) {
 			end.add(multiply(t,m));
 		}
-		ArrayList<Polynomial> factors = new ArrayList<Polynomial>();
-		factors.add(m.toPolynomial());
-		factors.add(p);
-		return new Polynomial(end,factors);
+		return new Polynomial(end);
 	}
 	public static Polynomial add(Polynomial p1, Polynomial p2) {
 		Monomial[] parts1 = p1.toArray(), parts2 = p2.toArray();

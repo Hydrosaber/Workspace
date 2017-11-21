@@ -45,13 +45,15 @@ public class Monomial {
 		coefficient=n;
 	}
 	private void simplify() {
-		for(int i=0;i<variables.size()-1;i++) {
-			Variable current = variables.get(i);
-			for(int x=variables.size()-1;x>i;x--) {
+		for(int i=variables.size()-1;i>0;i--) {
+			Variable current = variables.remove(i);
+			int pow = current.getPow();
+			for(int x=i-1;x>=0;x--) {
 				if(current.sameVar(variables.get(x))) {
-					current.setPow(current.getPow()+variables.remove(x).getPow());
+					pow+=variables.remove(x).getPow();
 				}
 			}
+			variables.add(new Variable(current.getSymbol(), pow));
 		}
 		for(int i=variables.size()-1;i>=0;i--) {
 			if(variables.get(i).getPow()==0) {
@@ -70,11 +72,19 @@ public class Monomial {
 		addVariables(vs.toArray(new Variable[vs.size()]));
 	}
 	public ArrayList<Variable> getVariables() {
-		return variables;
+		return new ArrayList<Variable>(variables);
+	}
+	public boolean contains(Variable x) {
+		for(Variable y: variables) {
+			if(y.equals(x)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	public boolean equals(Monomial other) {
 		for(Variable x:variables) {
-			if(!other.getVariables().contains(x)) {
+			if(!other.contains(x)) {
 				return false;
 			}
 		}

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Polynomial {
 	private ArrayList<Monomial> terms;
-	private ArrayList<Polynomial> factors;
 	public Polynomial(Monomial t) {
 		terms=new ArrayList<Monomial>();
 		terms.add(t);
@@ -18,19 +17,16 @@ public class Polynomial {
 		simplify();
 	}
 	public Polynomial(ArrayList<Monomial> ts) {this(ts.toArray(new Monomial[ts.size()]));}
-	public Polynomial(Monomial[] ts, ArrayList<Polynomial> fs) {
-		this(ts);
-		factors=fs;
-	}
-	public Polynomial(ArrayList<Monomial> ts, ArrayList<Polynomial> fs) {
-		this(ts.toArray(new Monomial[ts.size()]), fs);
-	}
 	private void simplify() {
-		for(int i=0;i<terms.size()-1;i++) {
+		for(int i=0;i<terms.size();i++) {
 			Monomial current = terms.get(i);
 			for(int x=terms.size()-1;x>i;x--) {
+				System.out.println("Is "+current+"="+terms.get(x));
 				if(current.equals(terms.get(x))) {
+					System.out.println("Yes");
 					current.setCoefficient(current.getCoefficient()+terms.remove(x).getCoefficient());
+				}else {
+					System.out.println("No");
 				}
 			}
 		}
@@ -40,9 +36,6 @@ public class Polynomial {
 	}
 	public ArrayList<Monomial> getTerms(){
 		return terms;
-	}
-	public ArrayList<Polynomial> getFactors(){
-		return factors;
 	}
 	public String toString() {
 		String end="(";
@@ -54,15 +47,4 @@ public class Polynomial {
 		}
 		return end+")";
 	}
-	public String toFactorString() {
-		String end="";
-		if(factors==null) {
-			return end;
-		}
-		for(int i=0;i<factors.size();i++) {
-			end+=factors.get(i);
-		}
-		return end;
-	}
-	
 }
