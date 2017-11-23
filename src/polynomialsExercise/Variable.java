@@ -8,7 +8,7 @@ public class Variable implements Comparable<Variable>{
 		power=0;
 	}
 	public Variable(char x) {
-		this();
+		symbol=x;
 		power=1;
 	}
 	public Variable(char x, int pow) {

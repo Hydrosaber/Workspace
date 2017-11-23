@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class Polynomial {
 	private ArrayList<Monomial> terms;
+	public Polynomial() {
+		terms=new ArrayList<Monomial>();
+	}
 	public Polynomial(Monomial t) {
 		terms=new ArrayList<Monomial>();
 		terms.add(t);
@@ -20,18 +23,14 @@ public class Polynomial {
 	private void simplify() {
 		for(int i=0;i<terms.size();i++) {
 			Monomial current = terms.get(i);
-			for(int x=terms.size()-1;x>i;x--) {
-				System.out.println("Is "+current+"="+terms.get(x));
+			for(int x=terms.size()-1;x>i;x--) {//to avoid skipping terms, and that ones before i have been already checked and simplified
 				if(current.equals(terms.get(x))) {
-					System.out.println("Yes");
-					current.setCoefficient(current.getCoefficient()+terms.remove(x).getCoefficient());
-				}else {
-					System.out.println("No");
+					current.setCoefficient(current.getCoefficient()+terms.remove(x).getCoefficient());//adds like terms, and removes the extra term
 				}
 			}
 		}
 	}
-	public Monomial[] toArray() {
+	public Monomial[] toArray() {//for polynomial math
 		return terms.toArray(new Monomial[terms.size()]);
 	}
 	public ArrayList<Monomial> getTerms(){

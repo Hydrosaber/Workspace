@@ -23,6 +23,7 @@ public class Monomial {
 	public Monomial(Variable v) {
 		this(1);
 		variables.add(v);
+		simplify();
 	}
 	public Monomial(ArrayList<Variable> vs) {
 		this(vs.toArray(new Variable[vs.size()]));
@@ -45,15 +46,19 @@ public class Monomial {
 		coefficient=n;
 	}
 	private void simplify() {
-		for(int i=variables.size()-1;i>0;i--) {
-			Variable current = variables.remove(i);
+		for(int i=variables.size()-1;i>0;i--) {//going backwards to prevent skipping
+			Variable current = variables.remove(i);//removed it to avoid messing with other references
 			int pow = current.getPow();
 			for(int x=i-1;x>=0;x--) {
 				if(current.sameVar(variables.get(x))) {
-					pow+=variables.remove(x).getPow();
+					pow+=variables.remove(x).getPow();//added powers, as they are multiplied together, and the extra appearance of 
 				}
 			}
-			variables.add(new Variable(current.getSymbol(), pow));
+			if(pow!=current.getPow()) {
+				variables.add(new Variable(current.getSymbol(), pow));//made new to prevent tampering with other references
+			}else {
+				variables.add(current);//reinsert if no changes, to avoid blocking unnecessary space
+			}
 		}
 		for(int i=variables.size()-1;i>=0;i--) {
 			if(variables.get(i).getPow()==0) {
@@ -66,7 +71,7 @@ public class Monomial {
 		for(Variable v:vs) {
 			variables.add(v);
 		}
-		simplify();
+		simplify();//to reorganize after addition
 	}
 	public void addVariables(ArrayList<Variable> vs) {
 		addVariables(vs.toArray(new Variable[vs.size()]));
@@ -76,7 +81,7 @@ public class Monomial {
 	}
 	public boolean contains(Variable x) {
 		for(Variable y: variables) {
-			if(y.equals(x)) {
+			if(y.equals(x)) {//checks if it exists, using the value not the hash code
 				return true;
 			}
 		}
