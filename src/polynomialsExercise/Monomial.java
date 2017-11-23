@@ -95,9 +95,16 @@ public class Monomial {
 		}
 		return true;
 	}
+	public String varToString() {
+		String str="";
+		for(Variable x:variables) {
+			str+=x;
+		}
+		return str;
+	}
 	public String toString() {
 		if(coefficient!=0) {
-			String str=""+((Math.abs(coefficient)==1)?(""):(coefficient));
+			String str=""+((Math.abs(coefficient)==1&&variables.size()>0)?(""):(coefficient));
 			for(Variable x:variables) {
 				str+=x;
 			}

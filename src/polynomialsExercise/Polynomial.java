@@ -36,6 +36,9 @@ public class Polynomial {
 	public ArrayList<Monomial> getTerms(){
 		return terms;
 	}
+	public int getTermLength() {
+		return terms.size();
+	}
 	public String toString() {
 		String end="(";
 		for(int i=0;i<terms.size();i++) {
@@ -43,6 +46,20 @@ public class Polynomial {
 				end+="+";
 			}
 			end+=terms.get(i);
+		}
+		return end+")";
+	}
+	public String MissATerm(int x) {
+		String end="(";
+		for(int i=0;i<terms.size();i++) {
+			if(terms.get(i).getCoefficient()>0&&i!=0) {
+				end+="+";
+			}
+			if(i!=x) {
+				end+=terms.get(i);
+			}else {
+				end+='K'+terms.get(i).varToString();
+			}
 		}
 		return end+")";
 	}
